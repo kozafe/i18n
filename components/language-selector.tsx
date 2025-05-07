@@ -1,23 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useParams, useRouter } from "next/navigation";
+
+const arr = [
+  { value: "id", label: "Bahasa" },
+  { value: "en", label: "English" },
+];
 
 export default function LanguageSelector() {
-  const [language, setLanguage] = useState("English")
+  const { locale } = useParams();
+
+  const { replace } = useRouter();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="rounded-full">
-          {language}
+          {arr.find((item) => item.value === locale)?.label}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setLanguage("English")}>English</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLanguage("Bahasa")}>Bahasa</DropdownMenuItem>
+        {arr.map((item, index) => (
+          <DropdownMenuItem
+            key={index}
+            onClick={() => {
+              replace(`/${item.value}`);
+            }}
+          >
+            {item.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

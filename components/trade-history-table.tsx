@@ -1,7 +1,15 @@
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+"use client";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Pagination,
   PaginationContent,
@@ -9,66 +17,88 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { getDate, LocaleType } from "./tools";
 
-const trades = [
-  {
-    id: 1,
-    name: "MSFT BUY",
-    company: "Microsoft Corp",
-    type: "BUY",
-    amount: "$30,021.23",
-    date: "Mar 27, 2023",
-    status: "processing",
-  },
-  {
-    id: 2,
-    name: "AAPL SELL",
-    company: "Apple Inc.",
-    type: "SELL",
-    amount: "$10,045.00",
-    date: "Mar 22, 2023",
-    status: "success",
-  },
-  {
-    id: 3,
-    name: "NVDA BUY",
-    company: "NVIDIA Corp.",
-    type: "BUY",
-    amount: "$40,332.19",
-    date: "Mar 22, 2023",
-    status: "success",
-  },
-  {
-    id: 4,
-    name: "AMZN BUY",
-    company: "Amazon.com, Inc.",
-    type: "BUY",
-    amount: "$22,665.12",
-    date: "Mar 22, 2023",
-    status: "declined",
-  },
-  {
-    id: 5,
-    name: "GOOG BUY",
-    company: "Alphabet Inc.",
-    type: "BUY",
-    amount: "$18,221.30",
-    date: "Mar 11, 2023",
-    status: "success",
-  },
-  {
-    id: 6,
-    name: "META SELL",
-    company: "Meta Platforms, Inc.",
-    type: "SELL",
-    amount: "$24,118.18",
-    date: "Mar 11, 2023",
-    status: "success",
-  },
-]
+const getPrice = (amount: number, locale: LocaleType) => {
+  const isID = locale === "id";
+  const formatter = new Intl.NumberFormat(isID ? "id-ID" : "en-US", {
+    style: "currency",
+    currency: isID ? "IDR" : "USD",
+  });
+
+  return formatter.format(amount);
+};
 
 export default function TradeHistoryTable() {
+  const t = useTranslations("home");
+
+  const { locale }: { locale: LocaleType } = useParams();
+
+  const trades = [
+    {
+      id: 1,
+      name: "MSFT BUY",
+      company: "Microsoft Corp",
+      type: "BUY",
+      amount: 30021.23,
+      date: "Mar 27, 2023",
+      status: "processing",
+      status_i18n: t("processing"),
+    },
+    {
+      id: 2,
+      name: "AAPL SELL",
+      company: "Apple Inc.",
+      type: "SELL",
+      amount: 10045.0,
+      date: "Mar 22, 2023",
+      status: "success",
+      status_i18n: t("success"),
+    },
+    {
+      id: 3,
+      name: "NVDA BUY",
+      company: "NVIDIA Corp.",
+      type: "BUY",
+      amount: 40332.19,
+      date: "Mar 22, 2023",
+      status: "success",
+      status_i18n: t("success"),
+    },
+    {
+      id: 4,
+      name: "AMZN BUY",
+      company: "Amazon.com, Inc.",
+      type: "BUY",
+      amount: 22665.12,
+      date: "Mar 22, 2023",
+      status: "declined",
+      status_i18n: t("declined"),
+    },
+    {
+      id: 5,
+      name: "GOOG BUY",
+      company: "Alphabet Inc.",
+      type: "BUY",
+      amount: 18221.3,
+      date: "Mar 11, 2023",
+      status: "success",
+      status_i18n: t("success"),
+    },
+    {
+      id: 6,
+      name: "META SELL",
+      company: "Meta Platforms, Inc.",
+      type: "SELL",
+      amount: 24118.18,
+      date: "Mar 11, 2023",
+      status: "success",
+      status_i18n: t("success"),
+    },
+  ];
   return (
     <div>
       <Table>
@@ -92,25 +122,36 @@ export default function TradeHistoryTable() {
               </TableCell>
               <TableCell>
                 <div className="font-medium">{trade.name}</div>
-                <div className="text-sm text-muted-foreground">{trade.company}</div>
+                <div className="text-sm text-muted-foreground">
+                  {trade.company}
+                </div>
               </TableCell>
-              <TableCell className="text-right">{trade.amount}</TableCell>
-              <TableCell className="text-right">{trade.date}</TableCell>
+              <TableCell className="text-right">
+                {getPrice(trade.amount, locale)}
+              </TableCell>
+              <TableCell className="text-right">
+                {getDate(locale, new Date(trade.date))}
+              </TableCell>
               <TableCell className="text-right">
                 <Badge
                   variant={
-                    trade.status === "success" ? "success" : trade.status === "processing" ? "outline" : "destructive"
+                    trade.status === "success"
+                      ? "outline"
+                      : trade.status === "processing"
+                      ? "outline"
+                      : "destructive"
                   }
                 >
                   {trade.status === "success" && "• "}
                   {trade.status === "processing" && "• "}
                   {trade.status === "declined" && "• "}
-                  {trade.status.charAt(0).toUpperCase() + trade.status.slice(1)}
+                  {trade.status_i18n.charAt(0).toUpperCase() +
+                    trade.status_i18n.slice(1)}
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
                 <Button variant="link" className="text-violet-600">
-                  View
+                  {t("view")}
                 </Button>
               </TableCell>
             </TableRow>
@@ -135,7 +176,9 @@ export default function TradeHistoryTable() {
               <PaginationLink href="#">3</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <span className="flex h-9 items-center justify-center px-4">...</span>
+              <span className="flex h-9 items-center justify-center px-4">
+                ...
+              </span>
             </PaginationItem>
             <PaginationItem>
               <PaginationLink href="#">8</PaginationLink>
@@ -153,5 +196,5 @@ export default function TradeHistoryTable() {
         </Pagination>
       </div>
     </div>
-  )
+  );
 }

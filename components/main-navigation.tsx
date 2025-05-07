@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Projects", href: "/projects" },
-  { name: "Tasks", href: "/tasks" },
-  { name: "Reporting", href: "/reporting" },
-  { name: "Users", href: "/users" },
-];
+import { useTranslations } from "next-intl";
 
 export default function MainNavigation() {
   const pathname = usePathname();
-  // const t = useTranslations("home");
-  // return t("test");
+  const t = useTranslations("home");
+  const navItems = [
+    { name: t("home"), href: "/" },
+    { name: t("dashboard"), href: "/dashboard" },
+    { name: t("projects"), href: "/projects" },
+    { name: t("tasks"), href: "/tasks" },
+    { name: t("reporting"), href: "/reporting" },
+    { name: t("users"), href: "/users" },
+  ];
+
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
       {navItems.map((item) => (

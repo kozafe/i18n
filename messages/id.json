@@ -1,1 +1,25 @@
-{ "home": { "test": "test1 indo" } }
+{
+  "home": {
+    "home": "Beranda",
+    "dashboard": "Dasbor",
+    "projects": "Proyek",
+    "tasks": "Tugas",
+    "reporting": "Laporan",
+    "users": "Users",
+    "overview": "Ringkasan",
+    "notifications": "Notifikasi",
+    "analytics": "Analysis",
+    "savedrepots": "Laporan Tersimpan",
+    "tradehistory": "Riwayat Jual/Beli",
+    "userreport": "Laporan Pengguna",
+    "downloadcsv": "Unduh CSV",
+    "add": "Tambah",
+    "filters": "Filter",
+    "view": "Tinjau",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "processing": "Pemrosesan",
+    "success": "Sukses",
+    "declined": "Ditolak"
+  }
+}
