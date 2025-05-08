@@ -13,7 +13,7 @@ const TableHeader = () => {
           {t("tradehistory")}
         </h1>
         <p className="text-sm text-muted-foreground">
-          View your team's trades and transactions.
+          {`View your team's trades and transactions.`}
         </p>
       </div>
       <div className="flex items-center gap-2">
