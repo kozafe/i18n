@@ -4,17 +4,10 @@ import SubNavigation from "@/components/sub-navigation";
 import TradeHistoryTable from "@/components/trade-history-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import TableFilters from "@/components/ui/table/filter";
 import TableHeader from "@/components/ui/table/header";
 import TableTabs from "@/components/ui/table/tabs";
-import {
-  Bell,
-  Calendar,
-  Search,
-  Settings,
-  SlidersHorizontal,
-} from "lucide-react";
+import { Bell, Settings } from "lucide-react";
 
 export default function Page() {
   return (
